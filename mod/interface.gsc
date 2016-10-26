@@ -1,0 +1,1 @@
+touchFinish(player){	trigger = self;	/* player iprintln("well done!"); */	level.kingOfTime = player;}addFinish(origin, angle){	trigger = utils\trigger::TRIGGER_add(origin, undefined, ::touchFinish, undefined);	trigger thread utils\trigger::TRIGGER_run();}

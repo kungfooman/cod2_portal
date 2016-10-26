@@ -1,0 +1,5 @@
+main()
+{
+	maps\mp\_load::main();
+	mod\interface::addFinish((-322,-1211,572-60),271);
+}

@@ -1,0 +1,51 @@
+/* more like player_stats.gsc */
+
+statAdd(name, value)
+{
+	player = self;
+	if (!isDefined(player.statsID))
+		return undefined;
+	id = player.statsID;
+	
+	iprintln("statAdd: id="+id + " name="+name + " value="+value);
+}
+
+statsEventAdd(name, func)
+{
+	if (!isDefined(level.statsEvents))
+		level.statsEvents = [];
+
+	if (!isDefined(level.statsEvents[name]))
+		level.statsEvents[name] = [];
+
+	size = level.statsEvents[name].size;
+	level.statsEvents[name][size] = func;
+}
+
+add(name, value)
+{
+	player = self;
+	
+	if (!isDefined(player.stats))
+		player.stats = [];
+		
+	if (!isDefined(player.stats[name]))
+		player.stats[name] = 0;
+		
+	// events for actions
+	if (isDefined(level.statsEvents))
+	{
+		if (isDefined(level.statsEvents[name]))
+		{
+			funcs = level.statsEvents[name];
+			
+			for (i=0; i<funcs.size; i++)
+				player [[funcs[i]]](name, value); // MAYBE i could use "name" in callback sometime
+				
+			return; // dont do the default-action anymore
+		}
+	}
+
+	// default action, non-persistent
+	player.stats[name] += value;
+}
